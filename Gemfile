@@ -58,3 +58,4 @@ end
 
 gem "faraday"
 gem "faraday_middleware"
+gem 'dotenv-rails'
