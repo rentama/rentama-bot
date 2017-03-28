@@ -27,10 +27,19 @@ class LineClient
 
   def reply(replyToken, text)
 
+    natto = Natto::MeCab.new
+    word = ""
+    natto.parse(text) do |n|
+      puts "#{n.surface}\t#{n.feature}"
+      word = n.surface if n.surface.length >= word.length
+    end
+
+    mecab_text = "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
+
     messages = [
       {
         "type" => "text" ,
-        "text" => text
+        "text" => mecab_text
       }
     ]
 
