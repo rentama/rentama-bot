@@ -1,8 +1,8 @@
 class WebhookController < ApplicationController
   protect_from_forgery :except => [:callback]
 
-  CHANNEL_SECRET = ENV['CHANNEL_SECRET']
-  OUTBOUND_PROXY = ENV['OUTBOUND_PROXY']
+  CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
+  OUTBOUND_PROXY = ENV['LINE_OUTBOUND_PROXY']
   CHANNEL_ACCESS_TOKEN = ENV['CHANNEL_ACCESS_TOKEN']
 
   def callback
