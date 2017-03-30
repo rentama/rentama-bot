@@ -48,12 +48,16 @@ class LineClient
   end
 
   def change_text(text)
-    natto = Natto::MeCab.new
-    word = ""
-    natto.parse(text) do |n|
-      word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
+    if text.match(/けもの/)
+      "スゴーーーーーイ！！君はけものフレンズなんだね！"
+    else
+      natto = Natto::MeCab.new
+      word = ""
+      natto.parse(text) do |n|
+        word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
+      end
+      "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
     end
-    "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
   end
 
 end
