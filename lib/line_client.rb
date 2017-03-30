@@ -34,8 +34,6 @@ class LineClient
       word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
     end
 
-    word = "けもの" if word = ""
-    
     mecab_text = "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
 
     messages = [
