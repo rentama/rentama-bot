@@ -31,9 +31,11 @@ class LineClient
     word = ""
     natto.parse(text) do |n|
       puts "#{n.surface}\t#{n.feature}"
-      word = n.surface if n.surface.length >= word.length
+      word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
     end
 
+    word = "けもの" if word = ""
+    
     mecab_text = "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
 
     messages = [
