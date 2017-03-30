@@ -19,7 +19,7 @@ class WebhookController < ApplicationController
       message_type = event["message"]["type"]
       if message_type == "text"
         user = User.where(line_user_id: event["source"]["userId"]).first_or_create
-        user.tweets.create(text: input_text)
+        user.messages.create(text: input_text)
       end
     end
 
