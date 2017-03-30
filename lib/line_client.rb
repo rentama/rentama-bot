@@ -25,21 +25,18 @@ class LineClient
     res
   end
 
-  def reply(replyToken, text)
-
-    natto = Natto::MeCab.new
-    word = ""
-    natto.parse(text) do |n|
-      puts "#{n.surface}\t#{n.feature}"
-      word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
+  def reply(replyToken, text, event_type)
+    case event_type
+    when "message"
+      input_text = change_text(text)
+    when "sticker"
+      input_text = "スタンプやんけ"
     end
-
-    mecab_text = "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
 
     messages = [
       {
         "type" => "text" ,
-        "text" => mecab_text
+        "text" => input_text
       }
     ]
 
@@ -48,6 +45,15 @@ class LineClient
       "messages" => messages
     }
     post('/v2/bot/message/reply', body.to_json)
+  end
+
+  def change_text(text)
+    natto = Natto::MeCab.new
+    word = ""
+    natto.parse(text) do |n|
+      word = n.surface if n.surface.length >= word.length && n.feature.match(/名詞/)
+    end
+    "スゴーーーーーイ！！君は#{word}フレンズなんだね！"
   end
 
 end

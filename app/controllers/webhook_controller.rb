@@ -14,14 +14,17 @@ class WebhookController < ApplicationController
     event_type = event["type"]
     replyToken = event["replyToken"]
 
-    case event_type
-    when "message"
+    if event_type = "message"
       input_text = event["message"]["text"]
-      output_text = input_text
+      message_type = event["message"]["type"]
+      if message_type == "text"
+        user = User.where(line_user_id: event["source"]["userId"]).first_or_create
+        user.tweets.create(text: input_text)
+      end
     end
 
     client = LineClient.new(CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
-    res = client.reply(replyToken, output_text)
+    res = client.reply(replyToken, input_text, event_type)
 
     if res.status == 200
       logger.info({success: res})
@@ -41,4 +44,5 @@ class WebhookController < ApplicationController
     signature_answer = Base64.strict_encode64(hash)
     signature == signature_answer
   end
+
 end
